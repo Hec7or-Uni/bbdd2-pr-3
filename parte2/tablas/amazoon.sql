@@ -1,39 +1,41 @@
 CREATE TABLE clients (
-  idClient    VARCHAR(255),
-  name        VARCHAR(255) NOT NULL,
+  DNI    VARCHAR(9),
+  name        VARCHAR(50) NOT NULL,
   email       VARCHAR(255) NOT NULL,
-  billingAddr VARCHAR(255) NOT NULL,
-  PRIMARY KEY (idClient)
+  billingAddr VARCHAR(100) NOT NULL,
+  PRIMARY KEY (DNI)
 );
 
 CREATE TABLE POS (
-  idPOS       VARCHAR(255),
-  type        VARCHAR(255) NOT NULL,
-  address     VARCHAR(255) NOT NULL,
-  PRIMARY KEY (idPOS)
+  id      VARCHAR(36),
+  type    VARCHAR(8)   NOT NULL CHECK (type IN ('online', 'physical')),
+  address VARCHAR(100) NOT NULL,
+  PRIMARY KEY (id)
 );
 
 CREATE TABLE magazines (
-  INTL              VARCHAR(255),
-  title             VARCHAR(255) NOT NULL,
-  publicationDate   DATE NOT NULL,
-  PRIMARY KEY (INTL),
+  INTL              VARCHAR(36),
+  title             VARCHAR(150)  NOT NULL,
+  publicationDate   DATE          NOT NULL,
+  PRIMARY KEY (INTL)
 );
 
 CREATE TABLE books (
-  INTL              VARCHAR(255),
-  title             VARCHAR(255) NOT NULL,
-  publicationDate   DATE NOT NULL,
-  edition           VARCHAR(255) NOT NULL,
-  author            VARCHAR(255) NOT NULL,
-  PRIMARY KEY (INTL),
+  INTL              VARCHAR(36),
+  title             VARCHAR(150)  NOT NULL,
+  publicationDate   DATE          NOT NULL,
+  edition           VARCHAR(255)  NOT NULL,
+  author            VARCHAR(255)  NOT NULL,
+  PRIMARY KEY (INTL)
 );
 
+-- PEDIENTE LAS DE ABAJO 
+
 CREATE TABLE sells (
-  idClient  VARCHAR(255),
+  DNI  VARCHAR(255),
   INTL      VARCHAR(255),
-  PRIMARY KEY (idClient, INTL),
-  FOREIGN KEY (idClient)  REFERENCES clients (idClient),
+  PRIMARY KEY (DNI, INTL),
+  FOREIGN KEY (DNI)  REFERENCES clients (DNI),
   FOREIGN KEY (INTL)      REFERENCES magazines (INTL)
 );
 
