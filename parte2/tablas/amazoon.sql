@@ -31,12 +31,15 @@ CREATE TABLE books (
 
 -- PEDIENTE LAS DE ABAJO 
 
-CREATE TABLE sells (
-  DNI  VARCHAR(255),
-  INTL      VARCHAR(255),
+CREATE TABLE buys (
+  DNI                       VARCHAR(255),
+  INTL                      VARCHAR(255),
+  date                      DATE              NOT NULL,
+  price                     FLOAT             NOT NULL,
+  shippingAddr              VARCHAR(100)      NOT NULL,
   PRIMARY KEY (DNI, INTL),
-  FOREIGN KEY (DNI)  REFERENCES clients (DNI),
-  FOREIGN KEY (INTL)      REFERENCES magazines (INTL)
+  FOREIGN KEY (DNI)         REFERENCES clients (DNI),
+  FOREIGN KEY (INTL)        REFERENCES magazines (INTL)
 );
 
 CREATE TABLE storage (
