@@ -1,5 +1,5 @@
 CREATE TABLE clients (
-  DNI    VARCHAR(9),
+  DNI         VARCHAR(9),
   name        VARCHAR(50) NOT NULL,
   email       VARCHAR(255) NOT NULL,
   billingAddr VARCHAR(100) NOT NULL,
@@ -38,7 +38,7 @@ CREATE TABLE buys (
 CREATE TABLE stores (
   idPOS     INTEGER,
   INTL      VARCHAR(255),
-  quantity  INT(11) NOT NULL,
+  quantity  INTEGER NOT NULL,
   PRIMARY KEY (idPOS, INTL),
   FOREIGN KEY (idPOS) REFERENCES POS (id),
   FOREIGN KEY (INTL)  REFERENCES products (INTL)

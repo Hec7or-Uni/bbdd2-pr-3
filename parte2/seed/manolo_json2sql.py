@@ -1,5 +1,6 @@
 import json
 import random
+from datetime import datetime
 
 # Leer los datos del archivo JSON
 with open('MANOLO_EMPLEADOS.json', 'r') as archivo:
@@ -8,7 +9,11 @@ with open('MANOLO_EMPLEADOS.json', 'r') as archivo:
 # Generar las sentencias de inserción
 salida = open('MANOLO_EMPLEADOS.sql', 'w')
 for dato in datos_empleados:
-    sentencia = "INSERT INTO empleado (DNI, nombre, genero, salario, fechaIncorporacion, fechaSalida) VALUES ('" + dato['DNI'] + "', '" + dato['nombre'] + "', '" + dato['genero'] + "', " + str(dato['salario']) + ", '" + dato['fechaIncorporacion'] + "', '" + dato['fechaSalida'] + "');\n"
+    fecha_dt = datetime.strptime(dato['fechaIncorporacion'], '%d-%m-%Y')
+    fechaIncorporacion = fecha_dt.strftime('%m-%d-%Y')
+    fecha_dt = datetime.strptime(dato['fechaSalida'], '%d-%m-%Y')
+    fechaSalida = fecha_dt.strftime('%m-%d-%Y')
+    sentencia = "INSERT INTO empleado (DNI, nombre, genero, salario, fechaIncorporacion, fechaSalida) VALUES ('" + dato['DNI'] + "', '" + dato['nombre'] + "', '" + dato['genero'] + "', " + str(dato['salario']) + ", '" + fechaIncorporacion + "', '" + fechaSalida + "');\n"
     salida.write(sentencia)
 salida.close()
 
@@ -23,7 +28,9 @@ for dato in datos_revistas:
     # Crear la sentencia de inserción
     if "'" in dato['titulo']:
         dato['titulo'] = dato['titulo'].replace("'", "''")
-    sentencia = "INSERT INTO revista (ISSN, titulo, fechaPublicacion, stock) VALUES ('" + dato['ISSN'] + "', '" + dato['titulo'] + "', '" + dato['fechaPublicacion'] + "', " + str(dato['stock']) + ");\n"
+    fecha_dt = datetime.strptime(dato['fechaPublicacion'], '%d-%m-%Y')
+    fechaPublicacion = fecha_dt.strftime('%m-%d-%Y')
+    sentencia = "INSERT INTO revista (ISSN, titulo, fechaPublicacion, stock) VALUES ('" + dato['ISSN'] + "', '" + dato['titulo'] + "', '" + fechaPublicacion + "', " + str(dato['stock']) + ");\n"
     salida.write(sentencia)
 salida.close()
 
@@ -38,6 +45,8 @@ for revista in datos_revistas:
     empleado = datos_empleados[num_empleado]['DNI']
     ISSN = revista['ISSN']
     fechaCompra = datos_empleados[num_empleado]['fechaIncorporacion']
+    fecha_dt = datetime.strptime(fechaCompra, '%d-%m-%Y')
+    fechaCompra = fecha_dt.strftime('%m-%d-%Y')
     decimal_aleatorio = round(random.uniform(0, 1), 2)
     entero_aleatorio = random.randint(1, 100)
     precioCompra = decimal_aleatorio + entero_aleatorio
@@ -60,6 +69,8 @@ for revista in datos_revistas:
     empleado = datos_empleados[num_empleado]['DNI']
     ISSN = revista['ISSN']
     fechaVenta = datos_empleados[num_empleado]['fechaIncorporacion']
+    fecha_dt = datetime.strptime(fechaVenta, '%d-%m-%Y')
+    fechaVenta = fecha_dt.strftime('%m-%d-%Y')
     decimal_aleatorio = round(random.uniform(0, 1), 2)
     entero_aleatorio = random.randint(1, 100)
     precioVenta = decimal_aleatorio + entero_aleatorio

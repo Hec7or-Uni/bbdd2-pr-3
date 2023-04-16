@@ -1,12 +1,17 @@
-CREATE VIEW global_clients AS
+CREATE EXTENSION dblink;
+
+SELECT dblink_connect('manolo', 'dbname=manolo host=127.0.0.1 user=postgres password=postgres');
+SELECT dblink_connect('amazoon', 'dbname=amazoon host=127.0.0.1 user=postgres password=postgres');
+
+CREATE OR REPLACE VIEW global_clients AS
     SELECT *
-    FROM dblink('dbname=amazoon options=-csearch_path=',
+    FROM dblink('dbname=amazoon host=127.0.0.1 user=postgres password=postgres',
                 'SELECT DNI, name, email, billingAddr FROM clients')
     AS t1(DNI VARCHAR(9), name VARCHAR(50), email VARCHAR(255), billingAddr VARCHAR(100));
 
-CREATE VIEW buys AS
+CREATE OR REPLACE VIEW buys AS
     SELECT *
-    FROM dblink('dbname=amazoon options=-csearch_path=',
+    FROM dblink('dbname=amazoon host=127.0.0.1 user=postgres password=postgres',
                 'SELECT DNI, INTL, date, price, shippingAddr FROM buys')
     AS t1(DNI VARCHAR(9), INTL VARCHAR(36), date DATE, price FLOAT, shippingAddr VARCHAR(100));
 

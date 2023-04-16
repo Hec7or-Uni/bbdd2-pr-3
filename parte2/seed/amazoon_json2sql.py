@@ -1,6 +1,6 @@
 import json
 import random
-from datetime import date, timedelta
+from datetime import date, timedelta, datetime
 
 # Leer los datos del archivo JSON
 with open('AMAZOON_PRODUCTS.json', 'r') as archivo:
@@ -16,8 +16,9 @@ for dato in datos_productos:
     else:
         edition = str(dato['edition'])
         author = dato['author']
-
-    sentencia = "INSERT INTO productos (INTL, title, publicationDate, type, edition, author) VALUES ('" + dato['INTL'] + "', '" + dato['title'] + "', '" + dato['publicationDate'] + "', '" + dato['type'] + "', " + edition + ", '" + author + "');\n"
+    fecha_dt = datetime.strptime(dato['publicationDate'], '%d-%m-%Y')
+    publicationDate = fecha_dt.strftime('%m-%d-%Y')
+    sentencia = "INSERT INTO products (INTL, title, publicationDate, type, edition, author) VALUES ('" + dato['INTL'] + "', '" + dato['title'] + "', '" + publicationDate + "', '" + dato['type'] + "', " + edition + ", '" + author + "');\n"
     salida.write(sentencia)
 salida.close()
 
@@ -59,7 +60,7 @@ for cliente in datos_clientes:
     fecha_aleatoria = fecha_min + timedelta(days=random.randint(0, dias_diferencia))
 
     # Formatear la fecha en formato dd-mm-yyyy
-    fecha = fecha_aleatoria.strftime('%d-%m-%Y')
+    fecha = fecha_aleatoria.strftime('%m-%d-%Y')
 
     decimal_aleatorio = round(random.uniform(0, 1), 2)
     entero_aleatorio = random.randint(1, 100)
