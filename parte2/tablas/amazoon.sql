@@ -7,7 +7,7 @@ CREATE TABLE clients (
 );
 
 CREATE TABLE POS (
-  id      VARCHAR(36),
+  id      INTEGER,
   type    VARCHAR(8)   NOT NULL CHECK (type IN ('online', 'physical')),
   address VARCHAR(100) NOT NULL,
   PRIMARY KEY (id)
@@ -18,8 +18,8 @@ CREATE TABLE products (
   title             VARCHAR(150)  NOT NULL,
   publicationDate   DATE          NOT NULL,
   type              VARCHAR(8)    NOT NULL  CHECK(type IN ('magazine', 'book')),
-  edition           VARCHAR(255)  NOT NULL,
-  author            VARCHAR(255)  NOT NULL,
+  edition           VARCHAR(255),
+  author            VARCHAR(255),
   PRIMARY KEY (INTL)
 );
 
@@ -29,16 +29,17 @@ CREATE TABLE buys (
   date                      DATE              NOT NULL,
   price                     FLOAT             NOT NULL,
   shippingAddr              VARCHAR(100)      NOT NULL,
-  PRIMARY KEY (DNI, INTL),
+  quantity                  INTEGER           NOT NULL,
+  PRIMARY KEY (DNI, INTL, date),
   FOREIGN KEY (DNI)         REFERENCES clients (DNI),
   FOREIGN KEY (INTL)        REFERENCES products (INTL)
 );
 
 CREATE TABLE stores (
-  idPOS     VARCHAR(255),
+  idPOS     INTEGER,
   INTL      VARCHAR(255),
-  Quantity  INT(11) NOT NULL,
+  quantity  INT(11) NOT NULL,
   PRIMARY KEY (idPOS, INTL),
-  FOREIGN KEY (idPOS) REFERENCES POS (idPOS),
-  FOREIGN KEY (INTL)  REFERENCES magazines (INTL)
+  FOREIGN KEY (idPOS) REFERENCES POS (id),
+  FOREIGN KEY (INTL)  REFERENCES products (INTL)
 );

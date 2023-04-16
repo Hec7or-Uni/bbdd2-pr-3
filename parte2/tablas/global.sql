@@ -19,13 +19,14 @@ CREATE VIEW products AS
     dblink('dbname=manolo options=-csearch_path=',
             'SELECT ISSN, titulo, fechaPublicacion, stock FROM revistas');
 
-SELECT dblink_exec('insert into POS values(''manolo'', ''physical'', ''Maria de Luna 3, Zaagoza, Spain'');');
+SELECT dblink_exec('insert into POS values(4, ''physical'', ''Maria de Luna 3, Zaragoza, Spain'');');
 
 CREATE VIEW POS AS
     SELECT *
     FROM
     dblink('dbname=amazoon options=-csearch_path=',
-    'SELECT id, type, address FROM POS');
+    'SELECT id, type, address FROM POS')
+    AS t1 (id INTEGER, type VARCHAR(8), address VARCHAR(100));
 
 CREATE VIEW worker AS 
     SELECT *
@@ -39,12 +40,12 @@ CREATE VIEW sells AS
                 'SELECT id, empleado, ISSN, fechaVenta, precioVenta, cantidad FROM vende')
     AS t1 (id INTEGER, worker VARCHAR(9), INTL VARCHAR(36), date DATE, price DECIMAL, quantity INTEGER);
 
-CREATE VIEW storage AS
+CREATE VIEW stores AS
     SELECT *
     FROM
     dblink('dbname=amazoon options=-csearch_path=',
-            'SELECT idPos, INTL, Quantity FROM storage')
+            'SELECT idPos, INTL, quantity FROM storage')
     UNION
     dblink('dbname=manolo options=-csearch_path=',
             'SELECT ISSN, stock FROM revista')
-    AS t1 (idPos VARCHAR(255), INTL VARCHAR(255), Quantity INT(11))
+    AS t1 (idPos INTEGER, INTL VARCHAR(255), Quantity INT(11))
