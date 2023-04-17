@@ -1,4 +1,7 @@
-CREATE DATABASE manolo;
+DROP TABLE IF EXISTS venta;
+DROP TABLE IF EXISTS compra;
+DROP TABLE IF EXISTS empleado;
+DROP TABLE IF EXISTS revista;
 
 CREATE TABLE revista (
   ISSN              VARCHAR(36),

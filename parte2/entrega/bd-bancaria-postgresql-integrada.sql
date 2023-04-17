@@ -1,7 +1,15 @@
+DROP VIEW IF EXISTS global_clients;
+DROP VIEW IF EXISTS global_buys;
+DROP VIEW IF EXISTS global_products;
+DROP VIEW IF EXISTS global_POS;
+DROP VIEW IF EXISTS global_worker;
+DROP VIEW IF EXISTS global_sells;
+DROP VIEW IF EXISTS global_stores;
+
+DROP EXTENSION IF EXISTS dblink;
 CREATE EXTENSION dblink;
 
-SELECT dblink_connect('manolo', 'dbname=manolo host=127.0.0.1 user=postgres password=postgres');
-SELECT dblink_connect('amazoon', 'dbname=amazoon host=127.0.0.1 user=postgres password=postgres');
+SELECT dblink_exec('dbname=amazoon host=127.0.0.1 user=postgres password=postgres', 'delete from POS WHERE id=4 AND type=''physical'' AND address=''Maria de Luna 3, Zaragoza, Spain'';');
 
 CREATE OR REPLACE VIEW global_clients AS
     SELECT *
@@ -29,7 +37,7 @@ CREATE OR REPLACE VIEW global_products AS
     AS t2 (INTL VARCHAR(36), title VARCHAR(150), publicationDate DATE, type VARCHAR(8), edition INTEGER, author VARCHAR(100));
 
 
-SELECT dblink_exec('insert into POS values(4, ''physical'', ''Maria de Luna 3, Zaragoza, Spain'');');
+SELECT dblink_exec('dbname=amazoon host=127.0.0.1 user=postgres password=postgres', 'insert into POS values(4, ''physical'', ''Maria de Luna 3, Zaragoza, Spain'');');
 
 CREATE OR REPLACE VIEW global_POS AS
     SELECT *
