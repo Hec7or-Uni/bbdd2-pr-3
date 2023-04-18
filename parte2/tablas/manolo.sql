@@ -2,15 +2,8 @@ CREATE TABLE revista (
   ISSN              VARCHAR(36),
   titulo            VARCHAR(150)   NOT NULL,
   fechaPublicacion  DATE          NOT NULL,
-  precioVenta       DECIMAL,
-  fechaVenta        DATE,
-  empleadoVenta     VARCHAR(9),
-  precioCompra      DECIMAL       NOT NULL,
-  fechaCompra       DATE          NOT NULL,
-  empleadoCompra    VARCHAR(9)    NOT NULL,
-  PRIMARY KEY (ISSN),
-  FOREIGN KEY (empleadoVenta) REFERENCES empleado (DNI),
-  FOREIGN KEY (empleadoCompra) REFERENCES empleado (DNI)
+  stock             INTEGER       NOT NULL,
+  PRIMARY KEY (ISSN)
 );
 
 CREATE TABLE empleado (
@@ -21,4 +14,28 @@ CREATE TABLE empleado (
   fechaIncorporacion  DATE        NOT NULL,
   fechaSalida         DATE        NOT NULL,
   PRIMARY KEY (DNI)
+);
+
+CREATE TABLE compra (
+  id            INTEGER,
+  empleado      VARCHAR(9)      NOT NULL,
+  ISSN          VARCHAR(36)     NOT NULL,
+  fechaCompra   DATE            NOT NULL,
+  precioCompra  DECIMAL         NOT NULL,
+  cantidad      INTEGER         NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (empleado) REFERENCES empleado(DNI),
+  FOREIGN KEY (ISSN) REFERENCES revista(ISSN)
+);
+
+CREATE TABLE venta (
+  id            INTEGER,
+  empleado      VARCHAR(9)      NOT NULL,
+  ISSN          VARCHAR(36)     NOT NULL,
+  fechaVenta    DATE            NOT NULL,
+  precioVenta   DECIMAL         NOT NULL,
+  cantidad      INTEGER         NOT NULL,
+  PRIMARY KEY (id),
+  FOREIGN KEY (empleado) REFERENCES empleado(DNI),
+  FOREIGN KEY (ISSN) REFERENCES revista(ISSN)
 );
